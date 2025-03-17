@@ -1,5 +1,7 @@
 # Prerequisites
 *.d
+pipex
+*.json
 
 # Object files
 *.o
