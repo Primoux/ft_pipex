@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:19:48 by enchevri          #+#    #+#             */
-/*   Updated: 2025/03/17 18:57:27 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/03/21 01:02:06 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 
 /*-------------------------------- STRUCTS --------------------------------*/
 
-/// @brief Struct representing everything needed by the mlx
 typedef struct s_data
 {
 	char	**av;
@@ -29,9 +28,7 @@ typedef struct s_data
 	int		id;
 	char	*infile;
 	char	*outfile;
-	char	*first_cmd;
-	char	**middle_cmd;
-	char	*last_cmd;
+	char	***args;
 	t_bool	here_doc;
 	char	*limiter;
 
