@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:19:48 by enchevri          #+#    #+#             */
-/*   Updated: 2025/03/21 01:02:06 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/03/21 22:00:24 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ typedef struct s_data
 	int		ac;
 	int		id;
 	char	*infile;
+	int		fd_infile;
 	char	*outfile;
+	int		fd_outfile;
 	char	***args;
 	t_bool	here_doc;
 	char	*limiter;

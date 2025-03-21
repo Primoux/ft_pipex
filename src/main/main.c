@@ -6,14 +6,17 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 13:21:24 by enchevri          #+#    #+#             */
-/*   Updated: 2025/03/21 01:35:35 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/03/21 22:04:32 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include <errno.h>
+#include <fcntl.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <sys/wait.h>
 #include <time.h>
 #include <unistd.h>
@@ -52,8 +55,11 @@ static int	get_arg(t_data *data, char **argv)
 int	main(int argc, char **argv)
 {
 	t_data	data;
-	int		i;
+	int		fd[2];
+	int		pid1;
+	int		pid2;
 	int		j;
+	int		i;
 
 	data.ac = argc;
 	if (get_arg(&data, argv) == 1)
@@ -61,22 +67,43 @@ int	main(int argc, char **argv)
 		write(1, "Error\n", 6);
 		return (1);
 	}
-	ft_printf("Infile : %s\n", data.infile);
-	if (data.args)
+	data.fd_infile = open(data.infile, O_RDONLY);
+	data.fd_outfile = open(data.outfile, O_RDONLY);
+	if (pipe(fd) == -1)
 	{
-		i = 0;
-		while (data.args[i])
-		{
-			j = 0;
-			while (data.args[i][j])
-			{
-				ft_printf("args[%d][%d] :%s\n", i, j, data.args[i][j]);
-				j++;
-			}
-			i++;
-		}
+		ft_printf("Error on the pipe\n");
+		return (1);
 	}
-	ft_printf("Outfile : %s\n", data.outfile);
+	pid1 = fork();
+	if (pid1 == -1)
+	{
+		ft_printf("Error on pid1\n");
+		return (2);
+	}
+	if (pid1 == 0)
+	{
+		dup2(data.fd_infile, 0);
+		close(data.fd_infile);
+		dup2(data.fd_outfile, 1);
+		close(data.fd_outfile);
+		execve("/usr/bin/rhjhegfues");
+	}
+	// ft_printf("Infile : %s\n", data.infile);
+	// if (data.args)
+	// {
+	// 	i = 0;
+	// 	while (data.args[i])
+	// 	{
+	// 		j = 0;
+	// 		while (data.args[i][j])
+	// 		{
+	// 			ft_printf("args[%d][%d] :%s\n", i, j, data.args[i][j]);
+	// 			j++;
+	// 		}
+	// 		i++;
+	// 	}
+	// }
+	// ft_printf("Outfile : %s\n", data.outfile);
 	i = 0;
 	while (data.args[i])
 	{
