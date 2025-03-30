@@ -1,23 +1,25 @@
 #-------------------------------- VARIABLES --------------------------------#
 
-NAME		=	pipex
-CC		 	=	cc
-CFLAGS		=	-Wall -Wextra -Werror -g3
-CFLAGSS		=	-Weverything -Wno-padded -g3
+NAME			=	pipex
+NAME_DEBUG		=	pipex_debug
+CC		 		=	cc
+CFLAGS			=	-Wall -Wextra -Werror
+DEBUG_FLAGS		=	-Wmissing-prototypes -Wno-padded -Wall -Wextra -g3
+DEP_FLAGS		=	-MMD -MP
+
 #-------------------------------- DIRECTORIES --------------------------------#
 
-LIBFT_DIR		=	src/lib/libft/
-INCLUDE_DIR		=	src/include/
-#PARSING_DIR		=	src/parsing/
-MAIN_DIR		=	src/main/
-#SOLVING_DIR		=	src/solving/
-#OPERATION_DIR	=	src/operations/
-OBJ_DIR			=	obj/
+LIBFT_DIR		=	./lib/libft
+INCLUDE_DIR		=	include
+MAIN_DIR		=	./src/
+OBJ_DIR			=	.obj/
+OBJ_DIR_DEBUG	=	.obj_debug/
+
 
 #-------------------------------- INCLUDES & FLAGS --------------------------------#
 
 INCLUDES	=	-I $(INCLUDE_DIR) \
-				-I ./src/lib/libft/include \
+				-I ./lib/libft/include \
 
 #-------------------------------- LIBRARIES --------------------------------#
 
@@ -25,19 +27,15 @@ LIBFT		= $(LIBFT_DIR)/libft.a
 
 #-------------------------------- SOURCE FILES --------------------------------#
 
-#PARSING_SRCS	=	parsing.c check_arg.c check_doublon.c check_index_sorted.c
-
 MAIN_SRCS		=	main.c
-
-#OPERATION_SRCS	=	swap.c push.c rotate.c
-
-#SOLVING_SRCS	=	start_algo.c little_sort.c
 
 SRCS			=	$(addprefix $(MAIN_DIR), $(MAIN_SRCS))
 
 #-------------------------------- OBJECTS --------------------------------------#
 
 OBJS			=	$(patsubst %.c,$(OBJ_DIR)%.o,$(SRCS))
+OBJS_DEBUG		=	$(patsubst %.c,$(OBJ_DIR_DEBUG)%.o,$(SRCS))
+
 DEPENDENCIES	=	$(OBJS:.o=.d)
 
 #-------------------------------- PROGRESS BAR --------------------------------#
@@ -86,18 +84,31 @@ $(LIBFT): libft
 
 libft:
 	@$(MAKE) --silent -C $(LIBFT_DIR)
-
+	
 $(NAME): $(LIBFT) $(OBJS)
 	@printf "$(BLUE)$(BOLD)Linking objects...$(RESET)\n"
-	@$(CC) $(OBJS) -o $(NAME)  $(LIBFT) $(LDFLAGS)
+	@$(CC) $(OBJS) -o $(NAME) $(DEP_FLAGS) $(LIBFT)
 	@printf "$(GREEN)$(BOLD)Build successful!$(RESET) Created $(BOLD)$(NAME)$(RESET)\n"
-
 
 $(OBJ_DIR)%.o: %.c
 	@mkdir -p $(dir $@)
 	$(eval CURRENT_FILE=$(shell echo $$(($(CURRENT_FILE) + 1))))
 	$(call draw_progress_bar)
-	@$(CC) $(CFLAGS) $(DEFINE) $(INCLUDES) -MMD -MP -c $< -o $@
+	@$(CC) $(DEFINE) $(INCLUDES)  -c $< -o $@
+	@if [ $(CURRENT_FILE) = $(TOTAL_FILES) ]; then echo; fi
+
+debug: $(NAME_DEBUG)
+
+$(NAME_DEBUG): $(LIBFT) $(OBJS_DEBUG)
+	@printf "$(BLUE)$(BOLD)Linking objects...$(RESET)\n"
+	@$(CC) $(DEBUG_FLAGS) $(OBJS_DEBUG) -o $(NAME_DEBUG) $(DEP_FLAGS) $(LIBFT)
+	@printf "$(GREEN)$(BOLD)Build successful!$(RESET) Created $(BOLD)$(NAME_DEBUG)$(RESET)\n"
+
+$(OBJ_DIR_DEBUG)%.o: %.c
+	@mkdir -p $(dir $@)
+	$(eval CURRENT_FILE=$(shell echo $$(($(CURRENT_FILE) + 1))))
+	$(call draw_progress_bar)
+	@$(CC) $(DEBUG_FLAGS) $(DEFINE) $(INCLUDES)  -c $< -o $@
 	@if [ $(CURRENT_FILE) = $(TOTAL_FILES) ]; then echo; fi
 
 clean:
