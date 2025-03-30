@@ -1,35 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_tab.c                                         :+:      :+:    :+:   */
+/*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/28 16:45:51 by enchevri          #+#    #+#             */
-/*   Updated: 2025/03/30 15:56:45 by enchevri         ###   ########lyon.fr   */
+/*   Created: 2025/03/30 16:30:21 by enchevri          #+#    #+#             */
+/*   Updated: 2025/03/30 16:33:51 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "pipex.h"
 
-char	**free_tab_return_null(char **tab)
+int	init_data(t_data *data, int argc, char **argv)
 {
-	size_t	i;
-
-	i = 0;
-	while (tab[i])
-		free(tab[i++]);
-	free(tab);
-	return (NULL);
-}
-
-int	free_tab_return_int(char **tab, int return_var)
-{
-	size_t	i;
-
-	i = 0;
-	while (tab[i])
-		free(tab[i++]);
-	free(tab);
-	return (return_var);
+	data->ac = argc;
+	data->av = argv;
+	data->here_doc = FALSE;
+	if (get_arg(data, argv) == 1)
+	{
+		write(STDERR_FILENO, "Error\n", 6);
+		return (1);
+	}
+	// if (get_path(data) == 1)
+	// {
+	// 	write(STDERR_FILENO, "Error\n", 6);
+	// 	return (1);
+	// }
+	return (0);
 }

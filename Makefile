@@ -18,16 +18,16 @@ OBJ_DIR_DEBUG	=	.obj_debug/
 
 #-------------------------------- INCLUDES & FLAGS --------------------------------#
 
-INCLUDES	=	-I $(INCLUDE_DIR) \
-				-I ./lib/libft/include \
+INCLUDES		=	-I $(INCLUDE_DIR) \
+					-I ./lib/libft/include \
 
 #-------------------------------- LIBRARIES --------------------------------#
 
-LIBFT		= $(LIBFT_DIR)/libft.a
+LIBFT			=	$(LIBFT_DIR)/libft.a
 
 #-------------------------------- SOURCE FILES --------------------------------#
 
-MAIN_SRCS		=	main.c
+MAIN_SRCS		=	main.c parsing.c exec.c heredoc.c utils.c
 
 SRCS			=	$(addprefix $(MAIN_DIR), $(MAIN_SRCS))
 

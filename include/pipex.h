@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:19:48 by enchevri          #+#    #+#             */
-/*   Updated: 2025/03/21 22:00:24 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/03/30 16:32:55 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,15 @@
 
 /*-------------------------------- INCLUDES --------------------------------*/
 # include "libft.h"
+# include <errno.h>
+# include <fcntl.h>
+# include <stdlib.h>
+# include <string.h>
+# include <sys/stat.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <time.h>
+# include <unistd.h>
 /*-------------------------------- DEFINES --------------------------------*/
 
 /*--------------------------------- ENUM ---------------------------------*/
@@ -37,4 +46,7 @@ typedef struct s_data
 }			t_data;
 
 /*------------------------------- FUNCTIONS -------------------------------*/
+int			get_arg(t_data *data, char **argv);
+int			init_data(t_data *data, int argc, char **argv);
+
 #endif
