@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: enzo <enzo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 13:21:24 by enchevri          #+#    #+#             */
-/*   Updated: 2025/03/30 16:30:53 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/03/30 22:23:06 by enzo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ int	main(int argc, char **argv)
 	int		i;
 	int		j;
 
-	if (argc < 5) // Check for minimum required arguments
+	if (argc < 5)
 	{
 		ft_printf("Usage: %s infile cmd1 cmd2 outfile\n", argv[0]);
 		return (1);
 	}
-	data = ft_calloc(1, sizeof(t_data)); // Allocate memory for data
+	data = ft_calloc(1, sizeof(t_data));
 	if (!data)
 		return (1);
 	ft_printf("%d\n", argc);
@@ -48,7 +48,6 @@ int	main(int argc, char **argv)
 		}
 	}
 	ft_printf("Outfile : %s\n", data->outfile);
-	// Free all allocated memory
 	if (data->args)
 	{
 		i = 0;

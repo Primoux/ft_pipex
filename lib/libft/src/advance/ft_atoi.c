@@ -17,10 +17,8 @@ int	ft_atoi(const char *str, int *error)
 {
 	int		sign;
 	long	nb;
-	long	int_min;
 
 	*error = 0;
-	int_min = -2147483647;
 	sign = 1;
 	nb = 0;
 	while (*str == ' ' || (*str >= 9 && *str <= 13))
