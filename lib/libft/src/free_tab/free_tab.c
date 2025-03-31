@@ -6,13 +6,13 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:45:51 by enchevri          #+#    #+#             */
-/*   Updated: 2025/03/30 15:56:45 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/03/31 20:10:35 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	**free_tab_return_null(char **tab)
+void	*free_tab_return_null(char **tab)
 {
 	size_t	i;
 

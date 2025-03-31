@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:19:48 by enchevri          #+#    #+#             */
-/*   Updated: 2025/03/30 16:32:55 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/03/31 19:38:53 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,13 @@ typedef struct s_data
 	char	***args;
 	t_bool	here_doc;
 	char	*limiter;
-
+	char	*path;
+	char	**split_path;
 }			t_data;
 
 /*------------------------------- FUNCTIONS -------------------------------*/
 int			get_arg(t_data *data, char **argv);
-int			init_data(t_data *data, int argc, char **argv);
+int			init_data(t_data *data, int argc, char **argv, char **env);
+char		*get_path(t_data *data, char **env);
 
 #endif

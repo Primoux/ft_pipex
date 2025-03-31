@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enzo <enzo@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 13:21:24 by enchevri          #+#    #+#             */
-/*   Updated: 2025/03/30 22:23:06 by enzo             ###   ########.fr       */
+/*   Updated: 2025/03/31 20:48:14 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **env)
 {
-	t_data	*data;
+	t_data	data;
 	int		i;
 	int		j;
 
@@ -23,43 +23,50 @@ int	main(int argc, char **argv)
 		ft_printf("Usage: %s infile cmd1 cmd2 outfile\n", argv[0]);
 		return (1);
 	}
-	data = ft_calloc(1, sizeof(t_data));
-	if (!data)
-		return (1);
-	ft_printf("%d\n", argc);
-	if (init_data(data, argc, argv) == 1)
+	if (init_data(&data, argc, argv, env) == 1)
 	{
-		free(data);
-		return (1);
-	}
-	ft_printf("Infile : %s\n", data->infile);
-	if (data->args)
-	{
-		i = 0;
-		while (data->args[i])
+		if (data.args)
 		{
-			j = 0;
-			while (data->args[i][j])
+			i = 0;
+			while (data.args[i])
 			{
-				ft_printf("args[%d][%d] :%s\n", i, j, data->args[i][j]);
-				j++;
+				j = 0;
+				while (data.args[i][j])
+					free(data.args[i][j++]);
+				free(data.args[i++]);
 			}
-			i++;
+			free(data.args);
 		}
+		return (1);
 	}
-	ft_printf("Outfile : %s\n", data->outfile);
-	if (data->args)
+	// ft_printf("Infile : %s\n", data.infile);
+	// if (data.args)
+	// {
+	// 	i = 0;
+	// 	while (data.args[i])
+	// 	{
+	// 		j = 0;
+	// 		while (data.args[i][j])
+	// 		{
+	// 			ft_printf("args[%d][%d] :%s\n", i, j, data.args[i][j]);
+	// 			j++;
+	// 		}
+	// 		i++;
+	// 	}
+	// }
+	// ft_printf("Outfile : %s\n", data.outfile);
+	if (data.args)
 	{
 		i = 0;
-		while (data->args[i])
+		while (data.args[i])
 		{
 			j = 0;
-			while (data->args[i][j])
-				free(data->args[i][j++]);
-			free(data->args[i++]);
+			while (data.args[i][j])
+				free(data.args[i][j++]);
+			free(data.args[i++]);
 		}
-		free(data->args);
+		free(data.args);
 	}
-	free(data);
+	free_tab_return_int(data.split_path, 0);
 	return (0);
 }

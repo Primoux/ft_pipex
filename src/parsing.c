@@ -3,19 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enzo <enzo@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 16:26:44 by enchevri          #+#    #+#             */
-/*   Updated: 2025/03/30 22:31:38 by enzo             ###   ########.fr       */
+/*   Updated: 2025/03/31 19:39:31 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <pipex.h>
 
-get_path(t_data data)
+char	*get_path(t_data *data, char **env)
 {
-	
+	int	i;
+
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], "PATH=", 5) == 0)
+			return (env[i] + 5);
+		i++;
+	}
+	return (NULL);
 }
+
+
 
 int	get_arg(t_data *data, char **argv)
 {

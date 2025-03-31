@@ -63,7 +63,7 @@ RESET		:=	\033[0m
 BOLD		:=	\033[1m
 
 define draw_progress_bar
-	@printf "\r$(CYAN)$(BOLD)Compiling push_swap: $(RESET)["
+	@printf "\r$(CYAN)$(BOLD)Compiling $(NAME): $(RESET)["
 	@n=$(CURRENT_FILE); \
 	total=$(TOTAL_FILES); \
 	pct=`expr $$n '*' 100 / $$total`; \
@@ -112,17 +112,17 @@ $(OBJ_DIR_DEBUG)%.o: %.c
 	@if [ $(CURRENT_FILE) = $(TOTAL_FILES) ]; then echo; fi
 
 clean:
-	@printf "$(BLUE)Cleaning object files from pipex...$(RESET)\n"
+	@printf "$(BLUE)Cleaning object files from $(NAME)...$(RESET)\n"
 	@rm -rf $(OBJ_DIR)
-	@$(MAKE) --silent -C $(LIBFT_DIR) clean
+	@$(MAKE) --silent -C $(LIBFT_DIR) $@
 
 fclean:
-	@$(MAKE) --silent -C $(LIBFT_DIR) fclean
-	@printf "$(BLUE)Removing executable from pipex...$(RESET)\n"
+	@$(MAKE) --silent -C $(LIBFT_DIR) $@
+	@printf "$(BLUE)Removing executable from $(NAME)...$(RESET)\n"
 	@rm -f $(NAME)
-	@printf "$(BLUE)Cleaning object files from pipex...$(RESET)\n"
+	@printf "$(BLUE)Cleaning object files from $(NAME)...$(RESET)\n"
 	@rm -rf $(OBJ_DIR)
-	@printf "$(GREEN)Clean complete pipex!$(RESET)\n"
+	@printf "$(GREEN)Clean complete $(NAME)!$(RESET)\n"
 
 re: fclean
 	@$(MAKE) --silent all
