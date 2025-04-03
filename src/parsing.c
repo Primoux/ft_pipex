@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 16:26:44 by enchevri          #+#    #+#             */
-/*   Updated: 2025/03/31 19:39:31 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/03 18:16:02 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ char	*get_path(t_data *data, char **env)
 	return (NULL);
 }
 
-
-
 int	get_arg(t_data *data, char **argv)
 {
 	int	i;
@@ -37,7 +35,7 @@ int	get_arg(t_data *data, char **argv)
 	i = 2;
 	j = 0;
 	if (i < data->ac && ft_strncmp("here_doc", argv[i],
-			ft_strlen("here_doc")) == 0)
+			8) == 0)
 	{
 		data->here_doc = TRUE;
 		data->limiter = argv[2];
@@ -51,17 +49,7 @@ int	get_arg(t_data *data, char **argv)
 	{
 		data->args[j] = ft_split(argv[i], ' ');
 		if (data->args[j] == NULL)
-		{
-			while (--j >= 0)
-			{
-				k = 0;
-				while (data->args[j][k])
-					free(data->args[j][k++]);
-				free(data->args[j]);
-			}
-			free(data->args);
 			return (1);
-		}
 		i++;
 		j++;
 	}

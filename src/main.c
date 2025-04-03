@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 13:21:24 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/03 12:51:12 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/03 18:12:13 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 int	main(int argc, char **argv, char **env)
 {
 	t_data	data;
-	int		i;
-	int		j;
 
 	if (argc < 5)
 	{
@@ -25,8 +23,8 @@ int	main(int argc, char **argv, char **env)
 	}
 	if (init_data(&data, argc, argv, env) == 1)
 	{
-		// free_tab_return_int(data.split_path, 1);
-		destruct_all(data);
+		write(STDERR_FILENO, "Error\n", 6);
+		free_all(&data);
 		return (1);
 	}
 	// ft_printf("Infile : %s\n", data.infile);
@@ -45,6 +43,6 @@ int	main(int argc, char **argv, char **env)
 	// 	}
 	// }
 	// ft_printf("Outfile : %s\n", data.outfile);
-	destruct_all(data);
+	free_all(&data);
 	return (0);
 }

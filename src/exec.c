@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 16:30:21 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/03 12:52:57 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/03 18:12:04 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ int	init_data(t_data *data, int argc, char **argv, char **env)
 	data->ac = argc;
 	data->av = argv;
 	data->here_doc = FALSE;
+	data->split_path = NULL;
 	if (get_arg(data, argv) == 1)
 	{
-		write(STDERR_FILENO, "Error\n", 6);
 		return (1);
 	}
 	data->path = get_path(data, env);

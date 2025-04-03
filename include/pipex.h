@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:19:48 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/03 12:27:19 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/03 18:04:41 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,6 @@ typedef struct s_data
 int			get_arg(t_data *data, char **argv);
 int			init_data(t_data *data, int argc, char **argv, char **env);
 char		*get_path(t_data *data, char **env);
-void		destruct_all(t_data data);
+void		free_all(t_data *data);
 
 #endif
