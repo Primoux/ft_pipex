@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 16:30:21 by enchevri          #+#    #+#             */
-/*   Updated: 2025/03/31 20:53:20 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/03 12:52:57 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	init_data(t_data *data, int argc, char **argv, char **env)
 	{
 		data->split_path[i] = str_free_to_join(data->split_path[i], "/");
 		if (data->split_path[i] == NULL)
-			return (free_tab_return_int(data->split_path, 1));
+			return (1);
 		i--;
 	}
 	return (0);
