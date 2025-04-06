@@ -12,7 +12,7 @@
 
 #include <pipex.h>
 
-char	*get_path(t_data *data, char **env)
+char	*get_path(char **env)
 {
 	int	i;
 
@@ -30,7 +30,6 @@ int	get_arg(t_data *data, char **argv)
 {
 	int	i;
 	int	j;
-	int	k;
 
 	i = 2;
 	j = 0;

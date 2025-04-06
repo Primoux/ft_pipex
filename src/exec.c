@@ -22,10 +22,8 @@ int	init_data(t_data *data, int argc, char **argv, char **env)
 	data->here_doc = FALSE;
 	data->split_path = NULL;
 	if (get_arg(data, argv) == 1)
-	{
 		return (1);
-	}
-	data->path = get_path(data, env);
+	data->path = get_path(env);
 	data->split_path = ft_split(data->path, ':');
 	if (data->split_path == NULL)
 		return (1);

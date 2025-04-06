@@ -50,7 +50,7 @@ typedef struct s_data
 /*------------------------------- FUNCTIONS -------------------------------*/
 int			get_arg(t_data *data, char **argv);
 int			init_data(t_data *data, int argc, char **argv, char **env);
-char		*get_path(t_data *data, char **env);
+char		*get_path(char **env);
 void		free_all(t_data *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 22:19:58 by marvin            #+#    #+#             */
-/*   Updated: 2025/04/03 18:08:28 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/04 12:11:47 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	**ft_split(char const *s, char c)
 	{
 		while (*s && check_sep(*s, c))
 			s++;
-		tab[i] = NULL;//ft_calloc(count_letters(s, c) + 1, sizeof(char));
+		tab[i] = ft_calloc(count_letters(s, c) + 1, sizeof(char));
 		if (tab[i] == NULL)
 			return (free_tab_return_null(tab));
 		ft_strlcpy(tab[i], s, count_letters(s, c) + 1);
