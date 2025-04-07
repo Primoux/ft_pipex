@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:19:48 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/03 18:04:41 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/07 16:27:58 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@
 
 /*-------------------------------- STRUCTS --------------------------------*/
 
+typedef struct s_fd
+{
+	int		fd1[2];
+	int		fd2[2];
+}			t_fd;
+
 typedef struct s_data
 {
 	char	**av;
@@ -52,5 +58,6 @@ int			get_arg(t_data *data, char **argv);
 int			init_data(t_data *data, int argc, char **argv, char **env);
 char		*get_path(char **env);
 void		free_all(t_data *data);
+int			ft_pipex(t_data *data);
 
 #endif

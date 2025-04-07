@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 13:21:24 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/03 18:12:13 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/06 17:33:24 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@ int	main(int argc, char **argv, char **env)
 		return (1);
 	}
 	if (init_data(&data, argc, argv, env) == 1)
+	{
+		write(STDERR_FILENO, "Error\n", 6);
+		free_all(&data);
+		return (1);
+	}
+	if (ft_pipex(&data) == 1)
 	{
 		write(STDERR_FILENO, "Error\n", 6);
 		free_all(&data);
