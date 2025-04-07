@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 17:26:05 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/07 17:49:05 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/07 21:08:27 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,13 @@ static void	close_all(t_fd *fd)
 	close(fd->fd2[1]);
 }
 
-static void	first_cmd(t_fd *fd)
+static void	first_cmd(t_fd *fd, char *file_name)
 {
+	int	infile;
+
+	infile = open(file_name, O_RDONLY);
+	dup2(infile, STDIN_FILENO);
+	close(infile);
 	dup2(fd->fd1[1], STDOUT_FILENO);
 	close_all(fd);
 }
@@ -30,13 +35,19 @@ static void	first_cmd(t_fd *fd)
 static void	middle_cmd(t_fd *fd)
 {
 	dup2(fd->fd1[0], STDIN_FILENO);
+	close(fd->fd1[0]);
 	dup2(fd->fd2[1], STDOUT_FILENO);
 	close_all(fd);
 }
 
-static void	last_cmd(t_fd *fd)
+static void	last_cmd(t_fd *fd, char *file_name)
 {
+	int	outfile;
+
+	outfile = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	dup2(fd->fd1[0], STDIN_FILENO);
+	dup2(outfile, STDOUT_FILENO);
+	close(outfile);
 	close_all(fd);
 }
 
@@ -70,6 +81,7 @@ static void	exec_cmd(t_data *data, int i)
 	{
 		ft_putstr_fd("Command not found: ", 2);
 		ft_putendl_fd(data->args[i][0], 2);
+		free(cmd_path);
 		exit(127);
 	}
 	execve(cmd_path, data->args[i], NULL);
@@ -82,9 +94,9 @@ static void	exec_cmd(t_data *data, int i)
 static void	prepare_pipe(t_data *data, t_fd *fd, int i)
 {
 	if (i == 0)
-		first_cmd(fd);
+		first_cmd(fd, data->infile);
 	else if (i != data->ac - 2)
-		last_cmd(fd);
+		last_cmd(fd, data->outfile);
 	else
 		middle_cmd(fd);
 	exec_cmd(data, i);
@@ -102,7 +114,7 @@ int	ft_pipex(t_data *data)
 		return (1);
 	while (data->args[i])
 	{
-		if (data->args[i + 1] && pipe(fd.fd2) == -1)
+		if (pipe(fd.fd2) == -1)
 			return (1);
 		pid = fork();
 		if (pid == -1)
@@ -114,8 +126,8 @@ int	ft_pipex(t_data *data)
 			close(fd.fd1[0]);
 		else
 		{
-			fd.fd1[0] = fd.fd2[0];
-			fd.fd2[1] = fd.fd2[1];
+			fd.fd2[0] = fd.fd1[0];
+			fd.fd2[1] = fd.fd1[1];
 		}
 		i++;
 	}
