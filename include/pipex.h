@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:19:48 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/07 16:27:58 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/08 15:35:46 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct s_data
 	char	*outfile;
 	int		fd_outfile;
 	char	***args;
-	t_bool	here_doc;
+	char	**env;
 	char	*limiter;
 	int		cmd_count;
 	char	*path;
@@ -59,5 +59,6 @@ int			init_data(t_data *data, int argc, char **argv, char **env);
 char		*get_path(char **env);
 void		free_all(t_data *data);
 int			ft_pipex(t_data *data);
+void		count_args(t_data *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 16:30:21 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/03 18:12:04 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/08 15:36:02 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	init_data(t_data *data, int argc, char **argv, char **env)
 	i = 0;
 	data->ac = argc;
 	data->av = argv;
-	data->here_doc = FALSE;
+	data->env = env;
 	data->split_path = NULL;
 	if (get_arg(data, argv) == 1)
 		return (1);
@@ -37,5 +37,6 @@ int	init_data(t_data *data, int argc, char **argv, char **env)
 			return (1);
 		i--;
 	}
+	count_args(data);
 	return (0);
 }

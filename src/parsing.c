@@ -6,12 +6,19 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 16:26:44 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/03 18:16:02 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/08 15:35:39 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <pipex.h>
 
+void	count_args(t_data *data)
+{
+	data->cmd_count = 0;
+	while (data->args[data->cmd_count++])
+		;
+	data->cmd_count--;
+}
 char	*get_path(char **env)
 {
 	int	i;
@@ -33,14 +40,6 @@ int	get_arg(t_data *data, char **argv)
 
 	i = 2;
 	j = 0;
-	if (i < data->ac && ft_strncmp("here_doc", argv[i],
-			8) == 0)
-	{
-		data->here_doc = TRUE;
-		data->limiter = argv[2];
-		i = 3;
-		data->ac--;
-	}
 	data->args = ft_calloc((data->ac - 2 + 1), sizeof(char *));
 	if (data->args == NULL)
 		return (1);
