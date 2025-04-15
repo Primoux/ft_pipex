@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:19:48 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/08 15:35:46 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/15 15:54:52 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "libft.h"
 # include <errno.h>
 # include <fcntl.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/stat.h>
@@ -24,6 +25,7 @@
 # include <sys/wait.h>
 # include <time.h>
 # include <unistd.h>
+
 /*-------------------------------- DEFINES --------------------------------*/
 
 /*--------------------------------- ENUM ---------------------------------*/
@@ -51,6 +53,7 @@ typedef struct s_data
 	int		cmd_count;
 	char	*path;
 	char	**split_path;
+	pid_t	*pid_children;
 }			t_data;
 
 /*------------------------------- FUNCTIONS -------------------------------*/
@@ -60,5 +63,10 @@ char		*get_path(char **env);
 void		free_all(t_data *data);
 int			ft_pipex(t_data *data);
 void		count_args(t_data *data);
+void		close_all(t_fd *fd);
+char		*find_command_path(char *cmd, char **paths);
+void		first_cmd(t_fd *fd, char *file_name, t_data *data);
+void		middle_cmd(t_fd *fd);
+void		last_cmd(t_fd *fd, char *file_name, t_data *data);
 
 #endif

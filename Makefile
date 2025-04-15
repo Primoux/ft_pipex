@@ -1,6 +1,6 @@
 #-------------------------------- VARIABLES --------------------------------#
 
-NAME			=	pipex
+NAME			=pipex
 NAME_DEBUG		=	pipex_debug
 CC		 		=	cc
 CFLAGS			=	-Wall -Wextra -Werror
@@ -27,7 +27,7 @@ LIBFT			=	$(LIBFT_DIR)/libft.a
 
 #-------------------------------- SOURCE FILES --------------------------------#
 
-MAIN_SRCS		=	main.c parsing.c exec.c heredoc.c utils.c pipex.c
+MAIN_SRCS		=	main.c parsing.c exec.c heredoc.c utils.c pipex.c prepare_cmd.c
 
 SRCS			=	$(addprefix $(MAIN_DIR), $(MAIN_SRCS))
 
@@ -122,6 +122,7 @@ fclean:
 	@rm -f $(NAME)
 	@printf "$(BLUE)Cleaning object files from $(NAME)...$(RESET)\n"
 	@rm -rf $(OBJ_DIR)
+	@rm -rf $(OBJ_DIR_DEBUG)
 	@printf "$(GREEN)Clean complete $(NAME)!$(RESET)\n"
 
 re: fclean

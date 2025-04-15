@@ -6,11 +6,37 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 16:26:44 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/08 15:35:39 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/15 15:43:45 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <pipex.h>
+
+char	*find_command_path(char *cmd, char **paths)
+{
+	int		i;
+	char	*cmd_path;
+
+	if (ft_strrchr(cmd, '/') != NULL)
+	{
+		if (access(cmd, F_OK & X_OK) == 0)
+			return (ft_strdup(cmd));
+	}
+	if (access(cmd, F_OK & X_OK) == 0)
+		return (ft_strdup(cmd));
+	i = 0;
+	while (paths[i])
+	{
+		cmd_path = ft_strjoin(paths[i], cmd);
+		if (!cmd_path)
+			return (NULL);
+		if (access(cmd_path, F_OK & X_OK) == 0)
+			return (cmd_path);
+		free(cmd_path);
+		i++;
+	}
+	return (NULL);
+}
 
 void	count_args(t_data *data)
 {
@@ -19,6 +45,7 @@ void	count_args(t_data *data)
 		;
 	data->cmd_count--;
 }
+
 char	*get_path(char **env)
 {
 	int	i;

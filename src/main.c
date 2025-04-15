@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 13:21:24 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/08 15:48:19 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/15 15:37:55 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	main(int argc, char **argv, char **env)
 {
 	t_data	data;
+	int		return_value;
 
 	if (argc < 5)
 	{
@@ -27,28 +28,7 @@ int	main(int argc, char **argv, char **env)
 		free_all(&data);
 		return (1);
 	}
-	if (ft_pipex(&data) == 1)
-	{
-		write(STDERR_FILENO, "Error\n", 6);
-		free_all(&data);
-		return (1);
-	}
-	// ft_printf("Infile : %s\n", data.infile);
-	// if (data.args)
-	// {
-	// 	i = 0;
-	// 	while (data.args[i])
-	// 	{
-	// 		j = 0;
-	// 		while (data.args[i][j])
-	// 		{
-	// 			ft_printf("args[%d][%d] :%s\n", i, j, data.args[i][j]);
-	// 			j++;
-	// 		}
-	// 		i++;
-	// 	}
-	// }
-	// ft_printf("Outfile : %s\n", data.outfile);
+	return_value = ft_pipex(&data);
 	free_all(&data);
-	return (0);
+	return (return_value);
 }
