@@ -1,10 +1,10 @@
 #-------------------------------- VARIABLES --------------------------------#
 
-NAME			=pipex
+NAME			=	pipex
 NAME_DEBUG		=	pipex_debug
-CC		 		=	cc
+CC				=	cc
 CFLAGS			=	-Wall -Wextra -Werror
-DEBUG_FLAGS		=	-Wmissing-prototypes -Wno-padded -Wall -Wextra -g3
+DEBUG_CFLAGS	=	-Wmissing-prototypes -Wno-padded -Wall -Wextra -g3 -o3
 DEP_FLAGS		=	-MMD -MP
 
 #-------------------------------- DIRECTORIES --------------------------------#
@@ -27,7 +27,7 @@ LIBFT			=	$(LIBFT_DIR)/libft.a
 
 #-------------------------------- SOURCE FILES --------------------------------#
 
-MAIN_SRCS		=	main.c parsing.c exec.c heredoc.c utils.c pipex.c prepare_cmd.c
+MAIN_SRCS		=	main.c parsing.c exec.c utils.c pipex.c prepare_cmd.c
 
 SRCS			=	$(addprefix $(MAIN_DIR), $(MAIN_SRCS))
 
@@ -45,7 +45,7 @@ ifeq ($(TOTAL_FILES),0)
 	TOTAL_FILES =	$(words $(SRCS))
 endif
 CURRENT_FILE	:=	0
-BAR_LENGTH		:=	50
+BAR_LENGTH		:=	25
 
 #-------------------------------- COLORS --------------------------------#
 
@@ -62,6 +62,12 @@ PURPLE		:=	\033[38;2;147;112;219m
 RESET		:=	\033[0m
 BOLD		:=	\033[1m
 
+
+
+
+
+
+
 define draw_progress_bar
 	@printf "\r$(CYAN)$(BOLD)Compiling $(NAME): $(RESET)["
 	@n=$(CURRENT_FILE); \
@@ -71,9 +77,14 @@ define draw_progress_bar
 	empty=`expr $(BAR_LENGTH) - $$fill`; \
 	printf "$(GREEN)%*s$(RESET)" $$fill "" | tr ' ' '='; \
 	printf "%*s" $$empty "" | tr ' ' ' '; \
-	printf "] $(BOLD)%3d%%$(RESET) (%d/%d)" $$pct $$n $$total; \
+	if [ $$n -eq $$total ]; then \
+		printf "] $(BLUE)$(BOLD)%3d%%$(RESET) (%d/%d)" $$pct $$n $$total; \
+	else \
+		printf "] $(BOLD)%3d%%$(RESET) (%d/%d)" $$pct $$n $$total; \
+	fi; \
 	if [ $$n = $$total ]; then printf "\n"; fi
 endef
+
 
 #-------------------------------- RULES --------------------------------#
 
@@ -86,44 +97,46 @@ libft:
 	@$(MAKE) --silent -C $(LIBFT_DIR)
 	
 $(NAME): $(LIBFT) $(OBJS)
-	@printf "$(BLUE)$(BOLD)Linking objects...$(RESET)\n"
-	@$(CC) $(OBJS) -o $(NAME) $(DEP_FLAGS) $(LIBFT)
-	@printf "$(GREEN)$(BOLD)Build successful!$(RESET) Created $(BOLD)$(NAME)$(RESET)\n"
+	@printf "$(BLUE)$(BOLD)[INFO]$(RESET) $(WHITE)Linking objects...$(RESET)\n"
+	@$(CC) $(OBJS) -o $(NAME) $(LIBFT)
+	@printf "$(GREEN)$(BOLD)[SUCCESS]$(RESET) $(WHITE)Build successful!$(RESET) Created $(BOLD)$(CYAN)$(NAME)$(RESET)\n"
 
 $(OBJ_DIR)%.o: %.c
 	@mkdir -p $(dir $@)
 	$(eval CURRENT_FILE=$(shell echo $$(($(CURRENT_FILE) + 1))))
 	$(call draw_progress_bar)
-	@$(CC) $(DEFINE) $(INCLUDES)  -c $< -o $@
+	@$(CC) $(DEFINE) $(INCLUDES) $(DEP_FLAGS) -c $< -o $@
 	@if [ $(CURRENT_FILE) = $(TOTAL_FILES) ]; then echo; fi
 
 debug: $(NAME_DEBUG)
 
 $(NAME_DEBUG): $(LIBFT) $(OBJS_DEBUG)
-	@printf "$(BLUE)$(BOLD)Linking objects...$(RESET)\n"
-	@$(CC) $(DEBUG_FLAGS) $(OBJS_DEBUG) -o $(NAME_DEBUG) $(DEP_FLAGS) $(LIBFT)
-	@printf "$(GREEN)$(BOLD)Build successful!$(RESET) Created $(BOLD)$(NAME_DEBUG)$(RESET)\n"
+	@printf "$(MAGENTA)$(BOLD)[DEBUG]$(RESET) $(WHITE)Linking objects...$(RESET)\n"
+	@$(CC) $(DEBUG_FLAGS) $(OBJS_DEBUG) -o $(NAME_DEBUG) $(LIBFT)
+	@printf "$(GREEN)$(BOLD)[SUCCESS]$(RESET) $(WHITE)Build successful!$(RESET) Created $(BOLD)$(CYAN)$(NAME)$(RESET)\n"
 
 $(OBJ_DIR_DEBUG)%.o: %.c
 	@mkdir -p $(dir $@)
 	$(eval CURRENT_FILE=$(shell echo $$(($(CURRENT_FILE) + 1))))
 	$(call draw_progress_bar)
-	@$(CC) $(DEBUG_FLAGS) $(DEFINE) $(INCLUDES)  -c $< -o $@
+	@$(CC) $(DEBUG_CFLAGS) $(DEFINE) $(INCLUDES) $(DEP_FLAGS) -c $< -o $@
 	@if [ $(CURRENT_FILE) = $(TOTAL_FILES) ]; then echo; fi
 
 clean:
-	@printf "$(BLUE)Cleaning object files from $(NAME)...$(RESET)\n"
+	@printf "$(ORANGE)$(BOLD)[CLEAN]$(RESET) $(WHITE)Cleaning object files from $(CYAN)$(NAME)$(RESET)...\n"
 	@rm -rf $(OBJ_DIR)
+	@rm -rf $(OBJ_DIR_DEBUG)
 	@$(MAKE) --silent -C $(LIBFT_DIR) $@
 
 fclean:
 	@$(MAKE) --silent -C $(LIBFT_DIR) $@
-	@printf "$(BLUE)Removing executable from $(NAME)...$(RESET)\n"
+	@printf "$(ORANGE)$(BOLD)[CLEAN]$(RESET) $(WHITE)Removing executables...$(RESET)\n"
 	@rm -f $(NAME)
-	@printf "$(BLUE)Cleaning object files from $(NAME)...$(RESET)\n"
+	@rm -f $(NAME_DEBUG)
+	@printf "$(ORANGE)$(BOLD)[CLEAN]$(RESET) $(WHITE)Cleaning object files from $(CYAN)$(NAME)$(RESET)...\n"
 	@rm -rf $(OBJ_DIR)
 	@rm -rf $(OBJ_DIR_DEBUG)
-	@printf "$(GREEN)Clean complete $(NAME)!$(RESET)\n"
+	@printf "$(GREEN)$(BOLD)[DONE]$(RESET) $(WHITE)Clean complete!$(RESET)\n"
 
 re: fclean
 	@$(MAKE) --silent all
@@ -133,4 +146,4 @@ print-%:
 
 -include $(DEPENDENCIES)
 
-.PHONY: all clean fclean re libft print-%
+.PHONY: all clean fclean re libft print-% debug

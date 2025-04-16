@@ -6,13 +6,13 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 16:30:21 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/14 22:18:33 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/15 23:39:02 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	init_var(t_data *data, int argc, char **argv, char **env)
+static void	init_var(t_data *data, int argc, char **argv, char **env)
 {
 	data->ac = argc;
 	data->av = argv;

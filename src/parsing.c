@@ -6,23 +6,26 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 16:26:44 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/15 15:43:45 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/16 01:52:35 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <pipex.h>
 
-char	*find_command_path(char *cmd, char **paths)
+char	*find_command_path(char *cmd, char **paths, t_data *data)
 {
 	int		i;
 	char	*cmd_path;
 
 	if (ft_strrchr(cmd, '/') != NULL)
 	{
-		if (access(cmd, F_OK & X_OK) == 0)
-			return (ft_strdup(cmd));
+		if (access(cmd, F_OK | X_OK) != 0)
+		{
+			execve(cmd_path, data->args[i], data->env);
+			exit(127);
+		}
 	}
-	if (access(cmd, F_OK & X_OK) == 0)
+	if (access(cmd, F_OK | X_OK) == 0)
 		return (ft_strdup(cmd));
 	i = 0;
 	while (paths[i])
@@ -30,7 +33,7 @@ char	*find_command_path(char *cmd, char **paths)
 		cmd_path = ft_strjoin(paths[i], cmd);
 		if (!cmd_path)
 			return (NULL);
-		if (access(cmd_path, F_OK & X_OK) == 0)
+		if (access(cmd_path, F_OK | X_OK) == 0)
 			return (cmd_path);
 		free(cmd_path);
 		i++;

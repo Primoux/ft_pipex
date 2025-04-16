@@ -6,15 +6,15 @@ AR		= 	ar rcs
 RM		= 	rm -f
 
 #-------------------------------- DIRECTORIES --------------------------------#
-INCLUDE_DIR 	= include
+INCLUDE_DIR		= include
 LIST_DIR		= ./src/list/
 TAB_DIR			= ./src/free_tab/
-LIST_DB_CIR_DIR = ./src/list_db_cir/
+LIST_DB_CIR_DIR	= ./src/list_db_cir/
 CHAR_DIR		= ./src/char/
-STRING_DIR  	= ./src/string/
+STRING_DIR		= ./src/string/
 IO_DIR			= ./src/io/
-MEMORY_DIR  	= ./src/memory/
-ADVANCE_DIR 	= ./src/advance/
+MEMORY_DIR		= ./src/memory/
+ADVANCE_DIR		= ./src/advance/
 OBJ_DIR			= .obj/
 
 #-------------------------------- SOURCE FILES --------------------------------#
@@ -62,8 +62,8 @@ SRCS			=	$(addprefix $(LIST_DIR), $(LIST_SRCS)) \
 
 
 #-------------------------------- OBJECTS --------------------------------#
-OBJS			= $(patsubst %.c,$(OBJ_DIR)%.o,$(SRCS))
-DEPENDENCIES	= $(OBJS:.o=.d)
+OBJS			=	$(patsubst %.c,$(OBJ_DIR)%.o,$(SRCS))
+DEPENDENCIES	=	$(OBJS:.o=.d)
 
 #-------------------------------- PROGRESS BAR --------------------------------#
 TOTAL_FILES		:= $(shell find $(SRCS) -type f -name "*.c" -newer $(NAME) 2>/dev/null | wc -l)
@@ -71,43 +71,50 @@ ifeq ($(TOTAL_FILES),0)
 	TOTAL_FILES = $(words $(OBJS))
 endif
 CURRENT_FILE	:= 0
-BAR_LENGTH		:= 50
+BAR_LENGTH		:= 25
 
 #-------------------------------- COLORS --------------------------------#
-BLACK       := \033[38;2;0;0;0m
-RED         := \033[38;2;220;20;60m
-GREEN       := \033[38;2;46;139;87m
-BLUE        := \033[38;2;30;144;255m
-YELLOW      := \033[38;2;255;215;0m
-MAGENTA     := \033[38;2;186;85;211m
-CYAN        := \033[38;2;0;206;209m
-WHITE       := \033[38;2;255;255;255m
-ORANGE      := \033[38;2;255;140;0m
-PURPLE      := \033[38;2;147;112;219m
-RESET       := \033[0m
-BOLD        := \033[1m
+
+BLACK		:=	\033[38;2;0;0;0m
+RED			:=	\033[38;2;220;20;60m
+GREEN		:=	\033[38;2;46;139;87m
+BLUE		:=	\033[38;2;30;144;255m
+YELLOW		:=	\033[38;2;255;215;0m
+MAGENTA		:=	\033[38;2;186;85;211m
+CYAN		:=	\033[38;2;0;206;209m
+WHITE		:=	\033[38;2;255;255;255m
+ORANGE		:=	\033[38;2;255;140;0m
+PURPLE		:=	\033[38;2;147;112;219m
+RESET		:=	\033[0m
+BOLD		:=	\033[1m
 
 define draw_progress_bar
-	@printf "\r$(CYAN)$(BOLD)Building libft:    $(RESET)["
+	@printf "\r$(CYAN)$(BOLD)Compiling libft: $(RESET)["
 	@n=$(CURRENT_FILE); \
 	total=$(TOTAL_FILES); \
-	pct=`expr $$n '*' 100 / $$total`; \
-	fill=`expr $$n '*' $(BAR_LENGTH) / $$total`; \
-	empty=`expr $(BAR_LENGTH) - $$fill`; \
+	pct=$$(expr $$n '*' 100 / $$total); \
+	fill=$$(expr $$n '*' $(BAR_LENGTH) / $$total); \
+	empty=$$(expr $(BAR_LENGTH) - $$fill); \
 	printf "$(GREEN)%*s$(RESET)" $$fill "" | tr ' ' '='; \
 	printf "%*s" $$empty "" | tr ' ' ' '; \
-	printf "] $(BOLD)%3d%%$(RESET) (%d/%d)" $$pct $$n $$total; \
+	if [ $$n -eq $$total ]; then \
+		printf "] $(BLUE)$(BOLD)%3d%%$(RESET) (%d/%d)" $$pct $$n $$total; \
+	else \
+		printf "] $(BOLD)%3d%%$(RESET) (%d/%d)" $$pct $$n $$total; \
+	fi; \
 	if [ $$n = $$total ]; then printf "\n"; fi
 endef
+
 
 #-------------------------------- RULES --------------------------------#
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@printf "\n$(BLUE)$(BOLD)Creating library...$(RESET)\n"
+	@printf "\n$(BLUE)$(BOLD)[INFO]$(RESET) $(WHITE)Creating library...$(RESET)\n"
 	@$(AR) $(NAME) $(OBJS)
-	@printf "$(GREEN)$(BOLD)Library built successfully!$(RESET)\n"
+	@printf "$(GREEN)$(BOLD)[SUCCESS]$(RESET) $(WHITE)Library built successfully!$(RESET)\n"
+
 
 $(OBJ_DIR)%.o: %.c
 	@mkdir -p $(dir $@)
@@ -116,13 +123,13 @@ $(OBJ_DIR)%.o: %.c
 	@$(CC) $(CFLAGS) -I $(INCLUDE_DIR) -MMD -MP -c $< -o $@
 
 clean:
-	@printf "$(BLUE)Cleaning object files from libft...$(RESET)\n"
+	@printf "$(ORANGE)$(BOLD)[CLEAN]$(RESET) $(WHITE)Cleaning object files from libft...$(RESET)\n"
 	@$(RM) -r $(OBJ_DIR)
 
 fclean: clean
-	@printf "$(BLUE)Removing library...$(RESET)\n"
+	@printf "$(ORANGE)$(BOLD)[CLEAN]$(RESET) $(WHITE)Removing library...$(RESET)\n"
 	@$(RM) $(NAME)
-	@printf "$(GREEN)Clean complete libft!$(RESET)\n"
+	@printf "$(GREEN)$(BOLD)[DONE]$(RESET) $(WHITE)Clean complete libft!$(RESET)\n"
 
 re: fclean
 	@$(MAKE) --silent all
@@ -132,4 +139,4 @@ print-%:
 
 -include $(DEPENDENCIES)
 
-.PHONY: all clean fclean re print-
+.PHONY: all clean fclean re print-%

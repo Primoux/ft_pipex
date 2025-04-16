@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 17:26:05 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/15 15:46:26 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/16 01:52:52 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	exec_cmd(t_data *data, int i)
 		free_all(data);
 		exit(127);
 	}
-	cmd_path = find_command_path(data->args[i][0], data->split_path);
+	cmd_path = find_command_path(data->args[i][0], data->split_path, data);
 	if (!cmd_path)
 	{
 		free_all(data);
@@ -43,7 +43,7 @@ static void	prepare_pipe(t_data *data, t_fd *fd, int i)
 		middle_cmd(fd);
 }
 
-int	wait_childs(t_data *data)
+static int	wait_childs(t_data *data)
 {
 	int	i;
 	int	exit_code;
@@ -72,7 +72,7 @@ int	wait_childs(t_data *data)
 	return (exit_code);
 }
 
-void	swap_pipes(t_fd *fd, int i, t_data *data)
+static void	swap_pipes(t_fd *fd, int i, t_data *data)
 {
 	close(fd->fd1[0]);
 	close(fd->fd1[1]);
