@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 17:26:05 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/16 01:52:52 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/16 19:26:05 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,7 @@ static int	wait_childs(t_data *data)
 				ft_putendl_fd(": command not found", 2);
 			}
 			else if (exit_code == 126)
-			{
-				ft_putstr_fd(data->args[i][0], 2);
-				ft_putendl_fd(": Permission denied", 2);
-			}
+				perror(data->args[i][0]);
 		}
 	}
 	return (exit_code);

@@ -62,12 +62,6 @@ PURPLE		:=	\033[38;2;147;112;219m
 RESET		:=	\033[0m
 BOLD		:=	\033[1m
 
-
-
-
-
-
-
 define draw_progress_bar
 	@printf "\r$(CYAN)$(BOLD)Compiling $(NAME): $(RESET)["
 	@n=$(CURRENT_FILE); \
@@ -85,7 +79,6 @@ define draw_progress_bar
 	if [ $$n = $$total ]; then printf "\n"; fi
 endef
 
-
 #-------------------------------- RULES --------------------------------#
 
 
@@ -98,21 +91,21 @@ libft:
 	
 $(NAME): $(LIBFT) $(OBJS)
 	@printf "$(BLUE)$(BOLD)[INFO]$(RESET) $(WHITE)Linking objects...$(RESET)\n"
-	@$(CC) $(OBJS) -o $(NAME) $(LIBFT)
+	@$(CC)  $(OBJS) -o $(NAME) $(LIBFT)
 	@printf "$(GREEN)$(BOLD)[SUCCESS]$(RESET) $(WHITE)Build successful!$(RESET) Created $(BOLD)$(CYAN)$(NAME)$(RESET)\n"
 
 $(OBJ_DIR)%.o: %.c
 	@mkdir -p $(dir $@)
 	$(eval CURRENT_FILE=$(shell echo $$(($(CURRENT_FILE) + 1))))
 	$(call draw_progress_bar)
-	@$(CC) $(DEFINE) $(INCLUDES) $(DEP_FLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(DEFINE) $(INCLUDES) $(DEP_FLAGS) -c $< -o $@
 	@if [ $(CURRENT_FILE) = $(TOTAL_FILES) ]; then echo; fi
 
 debug: $(NAME_DEBUG)
 
 $(NAME_DEBUG): $(LIBFT) $(OBJS_DEBUG)
 	@printf "$(MAGENTA)$(BOLD)[DEBUG]$(RESET) $(WHITE)Linking objects...$(RESET)\n"
-	@$(CC) $(DEBUG_FLAGS) $(OBJS_DEBUG) -o $(NAME_DEBUG) $(LIBFT)
+	@$(CC) $(OBJS_DEBUG) -o $(NAME_DEBUG) $(LIBFT)
 	@printf "$(GREEN)$(BOLD)[SUCCESS]$(RESET) $(WHITE)Build successful!$(RESET) Created $(BOLD)$(CYAN)$(NAME)$(RESET)\n"
 
 $(OBJ_DIR_DEBUG)%.o: %.c

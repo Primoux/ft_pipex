@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 17:38:16 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/15 23:23:17 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/16 18:47:53 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	free_all(t_data *data)
 	if (data->pid_children)
 		free(data->pid_children);
 }
-
 
 void	close_all(t_fd *fd)
 {
