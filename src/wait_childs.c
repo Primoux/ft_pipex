@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 15:43:04 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/18 15:49:05 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/18 16:25:14 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ int	check_sig(t_data *data, int i, int status, int exit_code)
 			ft_putendl_fd(": command not found", 2);
 		}
 		else if (exit_code == 126)
-			perror(data->args[i][0]);
-		else if (exit_code == 143)
 			perror(data->args[i][0]);
 	}
 	else if (WIFSIGNALED(status))
@@ -51,8 +49,6 @@ int	wait_childs(t_data *data)
 	exit_code = 0;
 	i = -1;
 	while (++i < data->cmd_count)
-	{
 		exit_code = check_sig(data, i, status, exit_code);
-	}
 	return (exit_code);
 }
