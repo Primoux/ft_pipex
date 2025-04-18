@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:19:48 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/16 01:52:45 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/18 15:46:05 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "libft.h"
 # include <errno.h>
 # include <fcntl.h>
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -68,5 +69,6 @@ char		*find_command_path(char *cmd, char **paths, t_data *data);
 void		first_cmd(t_fd *fd, char *file_name, t_data *data);
 void		middle_cmd(t_fd *fd);
 void		last_cmd(t_fd *fd, char *file_name, t_data *data);
+int			wait_childs(t_data *data);
 
 #endif

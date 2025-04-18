@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 17:26:05 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/16 19:26:05 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/18 15:45:18 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,32 +41,6 @@ static void	prepare_pipe(t_data *data, t_fd *fd, int i)
 		last_cmd(fd, data->outfile, data);
 	else
 		middle_cmd(fd);
-}
-
-static int	wait_childs(t_data *data)
-{
-	int	i;
-	int	exit_code;
-	int	status;
-
-	i = -1;
-	while (++i < data->cmd_count)
-	{
-		waitpid(data->pid_children[i], &status, 0);
-		if (WIFEXITED(status))
-		{
-			exit_code = WEXITSTATUS(status);
-			if (exit_code == 127)
-			{
-				if (data->args[i][0] != NULL)
-					ft_putstr_fd(data->args[i][0], 2);
-				ft_putendl_fd(": command not found", 2);
-			}
-			else if (exit_code == 126)
-				perror(data->args[i][0]);
-		}
-	}
-	return (exit_code);
 }
 
 static void	swap_pipes(t_fd *fd, int i, t_data *data)

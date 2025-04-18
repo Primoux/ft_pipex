@@ -27,7 +27,7 @@ LIBFT			=	$(LIBFT_DIR)/libft.a
 
 #-------------------------------- SOURCE FILES --------------------------------#
 
-MAIN_SRCS		=	main.c parsing.c exec.c utils.c pipex.c prepare_cmd.c
+MAIN_SRCS		=	main.c parsing.c exec.c utils.c pipex.c prepare_cmd.c wait_childs.c
 
 SRCS			=	$(addprefix $(MAIN_DIR), $(MAIN_SRCS))
 
