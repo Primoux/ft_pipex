@@ -9,6 +9,7 @@ DEP_FLAGS		=	-MMD -MP
 
 #-------------------------------- DIRECTORIES --------------------------------#
 
+LIBFT			=	$(LIBFT_DIR)/libft.a
 LIBFT_DIR		=	./lib/libft
 INCLUDE_DIR		=	include
 MAIN_DIR		=	./src/
@@ -81,10 +82,7 @@ endef
 
 #-------------------------------- RULES --------------------------------#
 
-
-all: $(NAME)
-
-$(LIBFT): libft
+all: libft $(NAME)
 
 libft:
 	@$(MAKE) --silent -C $(LIBFT_DIR)
