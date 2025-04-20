@@ -6,13 +6,13 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 15:43:04 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/18 16:25:14 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/19 17:23:04 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	check_sig(t_data *data, int i, int status, int exit_code)
+static int	check_sig(t_data *data, int i, int status, int exit_code)
 {
 	int	sig;
 

@@ -4,7 +4,7 @@ NAME			=	pipex
 NAME_DEBUG		=	pipex_debug
 CC				=	cc
 CFLAGS			=	-Wall -Wextra -Werror
-DEBUG_CFLAGS	=	-Wmissing-prototypes -Wno-padded -Wall -Wextra -g3 -o3
+DEBUG_CFLAGS	=	-Wmissing-prototypes -Wno-padded -Wall -Wextra -g3 -o3 
 DEP_FLAGS		=	-MMD -MP
 
 #-------------------------------- DIRECTORIES --------------------------------#
@@ -28,7 +28,7 @@ LIBFT			=	$(LIBFT_DIR)/libft.a
 
 #-------------------------------- SOURCE FILES --------------------------------#
 
-MAIN_SRCS		=	main.c parsing.c exec.c utils.c pipex.c prepare_cmd.c wait_childs.c
+MAIN_SRCS		=	main.c parsing.c init.c utils.c pipex.c prepare_cmd.c wait_childs.c
 
 SRCS			=	$(addprefix $(MAIN_DIR), $(MAIN_SRCS))
 
@@ -99,12 +99,12 @@ $(OBJ_DIR)%.o: %.c
 	@$(CC) $(CFLAGS) $(DEFINE) $(INCLUDES) $(DEP_FLAGS) -c $< -o $@
 	@if [ $(CURRENT_FILE) = $(TOTAL_FILES) ]; then echo; fi
 
-debug: $(NAME_DEBUG)
+debug: libft $(NAME_DEBUG)
 
 $(NAME_DEBUG): $(LIBFT) $(OBJS_DEBUG)
 	@printf "$(MAGENTA)$(BOLD)[DEBUG]$(RESET) $(WHITE)Linking objects...$(RESET)\n"
 	@$(CC) $(OBJS_DEBUG) -o $(NAME_DEBUG) $(LIBFT)
-	@printf "$(GREEN)$(BOLD)[SUCCESS]$(RESET) $(WHITE)Build successful!$(RESET) Created $(BOLD)$(CYAN)$(NAME)$(RESET)\n"
+	@printf "$(GREEN)$(BOLD)[SUCCESS]$(RESET) $(WHITE)Build successful!$(RESET) Created $(BOLD)$(CYAN)$(NAME_DEBUG)$(RESET)\n"
 
 $(OBJ_DIR_DEBUG)%.o: %.c
 	@mkdir -p $(dir $@)

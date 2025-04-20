@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 17:26:05 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/18 15:45:18 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/20 17:05:49 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	prepare_pipe(t_data *data, t_fd *fd, int i)
 	else if (i == data->cmd_count - 1)
 		last_cmd(fd, data->outfile, data);
 	else
-		middle_cmd(fd);
+		middle_cmd(fd, data);
 }
 
 static void	swap_pipes(t_fd *fd, int i, t_data *data)
@@ -54,31 +54,36 @@ static void	swap_pipes(t_fd *fd, int i, t_data *data)
 	}
 }
 
-int	ft_pipex(t_data *data)
+static int	routine_fork(int i, t_fd *fd, t_data *data)
 {
-	t_fd	fd;
-	int		i;
-	int		exit_code;
+	if (data->cmd_count - 1 && pipe(fd->fd2) == -1)
+		return (1);
+	data->pid_children[i] = fork();
+	if (data->pid_children[i] == -1)
+		return (1);
+	if (data->pid_children[i] == 0)
+	{
+		prepare_pipe(data, fd, i);
+		exec_cmd(data, i);
+	}
+	swap_pipes(fd, i, data);
+	return (0);
+}
+
+int	ft_pipex(t_data *data, t_fd *fd)
+{
+	int	i;
 
 	i = -1;
-	if (pipe(fd.fd1) == -1)
+	if (pipe(fd->fd1) == -1)
 		return (1);
-	data->pid_children = malloc((data->cmd_count + 1) * sizeof(pid_t));
+	data->pid_children = ft_calloc((data->cmd_count + 1), sizeof(pid_t));
+	if (!data->pid_children)
+		return (1);
 	while (data->args[++i])
 	{
-		if (i < data->cmd_count - 1 && pipe(fd.fd2) == -1)
+		if (routine_fork(i, fd, data) == 1)
 			return (1);
-		data->pid_children[i] = fork();
-		if (data->pid_children[i] == -1)
-			return (1);
-		if (data->pid_children[i] == 0)
-		{
-			prepare_pipe(data, &fd, i);
-			exec_cmd(data, i);
-			exit(1);
-		}
-		swap_pipes(&fd, i, data);
 	}
-	exit_code = wait_childs(data);
-	return (exit_code);
+	return (wait_childs(data));
 }

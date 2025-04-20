@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 16:26:44 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/16 17:05:35 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/20 15:55:12 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,11 @@ char	*find_command_path(char *cmd, char **paths, t_data *data)
 	i = 0;
 	if (ft_strrchr(cmd, '/') != NULL)
 	{
-		if (access(cmd, F_OK | X_OK) != 0)
-		{
-			execve(cmd_path, data->args[i], data->env);
-			exit(127);
-		}
+		execve(cmd, data->args[i], data->env);
+		free_all(data);
+		exit(127);
 	}
-	if (access(cmd, F_OK | X_OK) == 0)
+	if (access(cmd, X_OK) == 0)
 		return (ft_strdup(cmd));
 	while (paths[i])
 	{

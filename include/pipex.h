@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:19:48 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/18 15:46:05 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/20 15:04:12 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,25 +50,26 @@ typedef struct s_data
 	int		fd_outfile;
 	char	***args;
 	char	**env;
-	char	*limiter;
 	int		cmd_count;
 	char	*path;
+	int		count_path;
 	char	**split_path;
 	pid_t	*pid_children;
 }			t_data;
 
 /*------------------------------- FUNCTIONS -------------------------------*/
 int			get_arg(t_data *data, char **argv);
-int			init_data(t_data *data, int argc, char **argv, char **env);
+int			init_data(t_data *data, int argc, char **argv, t_fd *fd);
 char		*get_path(char **env);
 void		free_all(t_data *data);
-int			ft_pipex(t_data *data);
+int			ft_pipex(t_data *data, t_fd *fd);
 void		count_args(t_data *data);
 void		close_all(t_fd *fd);
 char		*find_command_path(char *cmd, char **paths, t_data *data);
 void		first_cmd(t_fd *fd, char *file_name, t_data *data);
-void		middle_cmd(t_fd *fd);
+void		middle_cmd(t_fd *fd, t_data *data);
 void		last_cmd(t_fd *fd, char *file_name, t_data *data);
 int			wait_childs(t_data *data);
+void		error_occured(t_fd *fd, t_data *data, char *error_msg);
 
 #endif

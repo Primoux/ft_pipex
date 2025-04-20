@@ -6,11 +6,20 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 17:38:16 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/16 18:47:53 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/20 15:12:23 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	error_occured(t_fd *fd, t_data *data, char *error_msg)
+{
+	if (error_msg != NULL)
+		perror(error_msg);
+	free_all(data);
+	close_all(fd);
+	exit(1);
+}
 
 void	free_all(t_data *data)
 {
@@ -29,16 +38,22 @@ void	free_all(t_data *data)
 		}
 		free(data->args);
 	}
-	if (data->split_path)
-		free_tab_return_int(data->split_path, 0);
+	i = 0;
+	while (i < data->count_path)
+		free(data->split_path[i++]);
+	free(data->split_path);
 	if (data->pid_children)
 		free(data->pid_children);
 }
 
 void	close_all(t_fd *fd)
 {
-	close(fd->fd1[0]);
-	close(fd->fd1[1]);
-	close(fd->fd2[0]);
-	close(fd->fd2[1]);
+	if (fd->fd1[0] != -1)
+		close(fd->fd1[0]);
+	if (fd->fd1[1] != -1)
+		close(fd->fd1[1]);
+	if (fd->fd2[0] != -1)
+		close(fd->fd2[0]);
+	if (fd->fd2[1] != -1)
+		close(fd->fd2[1]);
 }
