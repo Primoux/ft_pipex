@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 17:26:05 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/20 17:05:49 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/21 16:43:18 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,10 @@ static int	routine_fork(int i, t_fd *fd, t_data *data)
 		return (1);
 	data->pid_children[i] = fork();
 	if (data->pid_children[i] == -1)
+	{
+		close_all(fd);
 		return (1);
+	}
 	if (data->pid_children[i] == 0)
 	{
 		prepare_pipe(data, fd, i);
@@ -83,7 +86,7 @@ int	ft_pipex(t_data *data, t_fd *fd)
 	while (data->args[++i])
 	{
 		if (routine_fork(i, fd, data) == 1)
-			return (1);
+			break ;
 	}
 	return (wait_childs(data));
 }

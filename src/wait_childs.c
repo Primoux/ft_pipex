@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 15:43:04 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/19 17:23:04 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/21 16:02:58 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int	wait_childs(t_data *data)
 	int	status;
 
 	status = 0;
-	exit_code = 0;
 	i = -1;
 	while (++i < data->cmd_count)
 		exit_code = check_sig(data, i, status, exit_code);
