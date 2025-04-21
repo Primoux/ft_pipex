@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 17:38:16 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/20 15:12:23 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/21 22:32:11 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void	free_all(t_data *data)
 	i = 0;
 	while (i < data->count_path)
 		free(data->split_path[i++]);
-	free(data->split_path);
+	if (data->split_path)
+		free(data->split_path);
 	if (data->pid_children)
 		free(data->pid_children);
 }

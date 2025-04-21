@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 17:26:05 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/21 16:43:18 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/21 22:49:06 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	exec_cmd(t_data *data, int i)
 		free_all(data);
 		exit(127);
 	}
-	cmd_path = find_command_path(data->args[i][0], data->split_path, data);
+	cmd_path = find_command_path(data->args[i][0], data->split_path);
 	if (!cmd_path)
 	{
 		free_all(data);

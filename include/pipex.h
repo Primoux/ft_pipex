@@ -6,7 +6,7 @@
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:19:48 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/20 15:04:12 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/21 18:34:43 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void		free_all(t_data *data);
 int			ft_pipex(t_data *data, t_fd *fd);
 void		count_args(t_data *data);
 void		close_all(t_fd *fd);
-char		*find_command_path(char *cmd, char **paths, t_data *data);
+char		*find_command_path(char *cmd, char **paths);
 void		first_cmd(t_fd *fd, char *file_name, t_data *data);
 void		middle_cmd(t_fd *fd, t_data *data);
 void		last_cmd(t_fd *fd, char *file_name, t_data *data);
