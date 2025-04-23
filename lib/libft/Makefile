@@ -1,23 +1,23 @@
-#-------------------------------- VARIABLES --------------------------------#
+#-------------------------------- VARIABLES ----------------------------------#
 NAME	=	libft.a
 CC		=	cc
 CFLAGS	=	-Wall -Wextra -Werror
-AR		= 	ar rcs 
-RM		= 	rm -f
+AR		=	ar rcs 
+RM		=	rm -f
 
 #-------------------------------- DIRECTORIES --------------------------------#
-INCLUDE_DIR		= include
-LIST_DIR		= ./src/list/
-TAB_DIR			= ./src/free_tab/
-LIST_DB_CIR_DIR	= ./src/list_db_cir/
-CHAR_DIR		= ./src/char/
-STRING_DIR		= ./src/string/
-IO_DIR			= ./src/io/
-MEMORY_DIR		= ./src/memory/
-ADVANCE_DIR		= ./src/advance/
-OBJ_DIR			= .obj/
+INCLUDE_DIR		=	include
+LIST_DIR		=	./src/list/
+TAB_DIR			=	./src/free_tab/
+LIST_DB_CIR_DIR	=	./src/list_db_cir/
+CHAR_DIR		=	./src/char/
+STRING_DIR		=	./src/string/
+IO_DIR			=	./src/io/
+MEMORY_DIR		=	./src/memory/
+ADVANCE_DIR		=	./src/advance/
+OBJ_DIR			=	.obj/
 
-#-------------------------------- SOURCE FILES --------------------------------#
+#-------------------------------- SOURCE FILES -------------------------------#
 
 LIST_SRCS			=	ft_lstadd_front.c ft_lstlast.c \
 						ft_lstadd_back.c ft_lstsize.c \
@@ -61,11 +61,11 @@ SRCS			=	$(addprefix $(LIST_DIR), $(LIST_SRCS)) \
 					$(addprefix $(LIST_DB_CIR_DIR), $(LIST_DB_CIR_SRCS)) \
 
 
-#-------------------------------- OBJECTS --------------------------------#
+#-------------------------------- OBJECTS ------------------------------------#
 OBJS			=	$(patsubst %.c,$(OBJ_DIR)%.o,$(SRCS))
 DEPENDENCIES	=	$(OBJS:.o=.d)
 
-#-------------------------------- PROGRESS BAR --------------------------------#
+#-------------------------------- PROGRESS BAR -------------------------------#
 TOTAL_FILES		:= $(shell find $(SRCS) -type f -name "*.c" -newer $(NAME) 2>/dev/null | wc -l)
 ifeq ($(TOTAL_FILES),0)
 	TOTAL_FILES = $(words $(OBJS))
@@ -73,7 +73,7 @@ endif
 CURRENT_FILE	:= 0
 BAR_LENGTH		:= 25
 
-#-------------------------------- COLORS --------------------------------#
+#-------------------------------- COLORS -------------------------------------#
 
 BLACK		:=	\033[38;2;0;0;0m
 RED			:=	\033[38;2;220;20;60m
@@ -106,7 +106,7 @@ define draw_progress_bar
 endef
 
 
-#-------------------------------- RULES --------------------------------#
+#-------------------------------- RULES --------------------------------------#
 
 all: $(NAME)
 
