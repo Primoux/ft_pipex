@@ -1,4 +1,4 @@
-#-------------------------------- VARIABLES --------------------------------#
+#-------------------------------- VARIABLES ----------------------------------#
 
 NAME			=	pipex
 NAME_DEBUG		=	pipex_debug
@@ -20,16 +20,16 @@ OBJ_DIR_BONUS	=	$(OBJ_DIR)obj_bonus/
 OBJ_DIR_DEBUG	=	$(OBJ_DIR)obj_debug/
 
 
-#-------------------------------- INCLUDES & FLAGS --------------------------------#
+#-------------------------------- INCLUDES & FLAGS ---------------------------#
 
 INCLUDES		=	-I $(INCLUDE_DIR) \
 					-I ./lib/libft/include \
 
-#-------------------------------- LIBRARIES --------------------------------#
+#-------------------------------- LIBRARIES ----------------------------------#
 
 LIBFT			=	$(LIBFT_DIR)/libft.a
 
-#-------------------------------- SOURCE FILES --------------------------------#
+#-------------------------------- SOURCE FILES -------------------------------#
 
 MAIN_SRCS		=	main.c parsing.c init.c utils.c pipex.c prepare_cmd.c wait_childs.c
 
@@ -38,7 +38,7 @@ BONUS_SRCS		=	main_bonus.c parsing.c init.c utils.c pipex.c prepare_cmd.c wait_c
 SRCS_PATH		=	$(addprefix $(MAIN_DIR), $(MAIN_SRCS))
 SRCS_PATH_BONUS	=	$(addprefix $(MAIN_DIR), $(BONUS_SRCS))
 
-#-------------------------------- OBJECTS --------------------------------------#
+#-------------------------------- OBJECTS ------------------------------------#
 
 OBJS_MAIN		=	$(patsubst %.c,$(OBJ_DIR_MAIN)%.o,$(SRCS_PATH))
 OBJS_BONUS		=	$(patsubst %.c,$(OBJ_DIR_BONUS)%.o,$(SRCS_PATH_BONUS))
@@ -46,7 +46,7 @@ OBJS_DEBUG		=	$(patsubst %.c,$(OBJ_DIR_DEBUG)%.o,$(SRCS_PATH))
 
 DEPENDENCIES	=	$(OBJS_MAIN:.o=.d)
 
-#-------------------------------- PROGRESS BAR --------------------------------#
+#-------------------------------- PROGRESS BAR -------------------------------#
 
 TOTAL_FILES		:=	$(shell find $(SRCS_PATH) -type f -name "*.c" -newer $(NAME) 2>/dev/null | wc -l)
 ifeq ($(TOTAL_FILES),0)
@@ -55,7 +55,7 @@ endif
 CURRENT_FILE	:=	0
 BAR_LENGTH		:=	25
 
-#-------------------------------- COLORS --------------------------------#
+#-------------------------------- COLORS -------------------------------------#
 
 BLACK		:=	\033[38;2;0;0;0m
 RED			:=	\033[38;2;220;20;60m
@@ -87,7 +87,7 @@ define draw_progress_bar
 	if [ $$n = $$total ]; then printf "\n"; fi
 endef
 
-#-------------------------------- RULES --------------------------------#
+#-------------------------------- RULES --------------------------------------#
 
 all: libft $(NAME)
 
