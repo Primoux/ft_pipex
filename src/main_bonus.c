@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: enchevri <enchevri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 13:21:24 by enchevri          #+#    #+#             */
-/*   Updated: 2025/04/23 01:00:49 by enchevri         ###   ########lyon.fr   */
+/*   Updated: 2025/04/23 01:00:15 by enchevri         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int	main(int argc, char **argv, char **env)
 	t_fd	fd;
 	int		return_value;
 
-	if (argc != 5)
+	if (argc < 5)
 	{
-		ft_printf("Usage: %s infile cmd1 cmd2 outfile\n", argv[0]);
+		ft_printf("Usage: %s infile cmd1 cmd2 [...] outfile\n", argv[0]);
 		return (1);
 	}
 	data.env = env;

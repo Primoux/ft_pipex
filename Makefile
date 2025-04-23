@@ -2,6 +2,7 @@
 
 NAME			=	pipex
 NAME_DEBUG		=	pipex_debug
+NAME_BONUS		=	pipex_bonus
 CC				=	cc
 CFLAGS			=	-Wall -Wextra -Werror
 DEBUG_CFLAGS	=	-Wmissing-prototypes -Wno-padded -Wall -Wextra -g3 -o3 
@@ -14,7 +15,9 @@ LIBFT_DIR		=	./lib/libft
 INCLUDE_DIR		=	include
 MAIN_DIR		=	./src/
 OBJ_DIR			=	.obj/
-OBJ_DIR_DEBUG	=	.obj_debug/
+OBJ_DIR_MAIN	=	$(OBJ_DIR)obj_main/
+OBJ_DIR_BONUS	=	$(OBJ_DIR)obj_bonus/
+OBJ_DIR_DEBUG	=	$(OBJ_DIR)obj_debug/
 
 
 #-------------------------------- INCLUDES & FLAGS --------------------------------#
@@ -30,20 +33,24 @@ LIBFT			=	$(LIBFT_DIR)/libft.a
 
 MAIN_SRCS		=	main.c parsing.c init.c utils.c pipex.c prepare_cmd.c wait_childs.c
 
-SRCS			=	$(addprefix $(MAIN_DIR), $(MAIN_SRCS))
+BONUS_SRCS		=	main_bonus.c parsing.c init.c utils.c pipex.c prepare_cmd.c wait_childs.c
+
+SRCS_PATH		=	$(addprefix $(MAIN_DIR), $(MAIN_SRCS))
+SRCS_PATH_BONUS	=	$(addprefix $(MAIN_DIR), $(BONUS_SRCS))
 
 #-------------------------------- OBJECTS --------------------------------------#
 
-OBJS			=	$(patsubst %.c,$(OBJ_DIR)%.o,$(SRCS))
-OBJS_DEBUG		=	$(patsubst %.c,$(OBJ_DIR_DEBUG)%.o,$(SRCS))
+OBJS_MAIN		=	$(patsubst %.c,$(OBJ_DIR_MAIN)%.o,$(SRCS_PATH))
+OBJS_BONUS		=	$(patsubst %.c,$(OBJ_DIR_BONUS)%.o,$(SRCS_PATH_BONUS))
+OBJS_DEBUG		=	$(patsubst %.c,$(OBJ_DIR_DEBUG)%.o,$(SRCS_PATH))
 
-DEPENDENCIES	=	$(OBJS:.o=.d)
+DEPENDENCIES	=	$(OBJS_MAIN:.o=.d)
 
 #-------------------------------- PROGRESS BAR --------------------------------#
 
-TOTAL_FILES		:=	$(shell find $(SRCS) -type f -name "*.c" -newer $(NAME) 2>/dev/null | wc -l)
+TOTAL_FILES		:=	$(shell find $(SRCS_PATH) -type f -name "*.c" -newer $(NAME) 2>/dev/null | wc -l)
 ifeq ($(TOTAL_FILES),0)
-	TOTAL_FILES =	$(words $(SRCS))
+	TOTAL_FILES =	$(words $(SRCS_PATH))
 endif
 CURRENT_FILE	:=	0
 BAR_LENGTH		:=	25
@@ -87,12 +94,27 @@ all: libft $(NAME)
 libft:
 	@$(MAKE) --silent -C $(LIBFT_DIR)
 	
-$(NAME): $(LIBFT) $(OBJS)
+$(NAME): $(LIBFT) $(OBJS_MAIN)
 	@printf "$(BLUE)$(BOLD)[INFO]$(RESET) $(WHITE)Linking objects...$(RESET)\n"
-	@$(CC)  $(OBJS) -o $(NAME) $(LIBFT)
+	@$(CC)  $(OBJS_MAIN) -o $(NAME) $(LIBFT)
 	@printf "$(GREEN)$(BOLD)[SUCCESS]$(RESET) $(WHITE)Build successful!$(RESET) Created $(BOLD)$(CYAN)$(NAME)$(RESET)\n"
 
-$(OBJ_DIR)%.o: %.c
+$(OBJ_DIR_MAIN)%.o: %.c
+	@mkdir -p $(dir $@)
+	$(eval CURRENT_FILE=$(shell echo $$(($(CURRENT_FILE) + 1))))
+	$(call draw_progress_bar)
+	@$(CC) $(CFLAGS) $(DEFINE) $(INCLUDES) $(DEP_FLAGS) -c $< -o $@
+	@if [ $(CURRENT_FILE) = $(TOTAL_FILES) ]; then echo; fi
+
+bonus: libft $(NAME_BONUS)
+
+
+$(NAME_BONUS): $(LIBFT) $(OBJS_BONUS)
+	@printf "$(MAGENTA)$(BOLD)[DEBUG]$(RESET) $(WHITE)Linking objects...$(RESET)\n"
+	@$(CC) $(OBJS_BONUS) -o $(NAME_BONUS) $(LIBFT)
+	@printf "$(GREEN)$(BOLD)[SUCCESS]$(RESET) $(WHITE)Build successful!$(RESET) Created $(BOLD)$(CYAN)$(NAME_BONUS)$(RESET)\n"
+
+$(OBJ_DIR_BONUS)%.o: %.c
 	@mkdir -p $(dir $@)
 	$(eval CURRENT_FILE=$(shell echo $$(($(CURRENT_FILE) + 1))))
 	$(call draw_progress_bar)
@@ -117,6 +139,7 @@ clean:
 	@printf "$(ORANGE)$(BOLD)[CLEAN]$(RESET) $(WHITE)Cleaning object files from $(CYAN)$(NAME)$(RESET)...\n"
 	@rm -rf $(OBJ_DIR)
 	@rm -rf $(OBJ_DIR_DEBUG)
+	@rm -rf $(OBJ_DIR_BONUS)
 	@$(MAKE) --silent -C $(LIBFT_DIR) $@
 
 fclean:
@@ -124,9 +147,11 @@ fclean:
 	@printf "$(ORANGE)$(BOLD)[CLEAN]$(RESET) $(WHITE)Removing executables...$(RESET)\n"
 	@rm -f $(NAME)
 	@rm -f $(NAME_DEBUG)
+	@rm -f $(NAME_BONUS)
 	@printf "$(ORANGE)$(BOLD)[CLEAN]$(RESET) $(WHITE)Cleaning object files from $(CYAN)$(NAME)$(RESET)...\n"
 	@rm -rf $(OBJ_DIR)
 	@rm -rf $(OBJ_DIR_DEBUG)
+	@rm -rf $(OBJ_DIR_BONUS)
 	@printf "$(GREEN)$(BOLD)[DONE]$(RESET) $(WHITE)Clean complete!$(RESET)\n"
 
 re: fclean

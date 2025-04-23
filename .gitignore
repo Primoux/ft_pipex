@@ -4,6 +4,7 @@ pipex
 *.json
 .vscode
 *debug
+pipex_bonus
 
 # Object files
 *.o
