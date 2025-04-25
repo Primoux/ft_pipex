@@ -138,8 +138,6 @@ $(OBJ_DIR_DEBUG)%.o: %.c
 clean:
 	@printf "$(ORANGE)$(BOLD)[CLEAN]$(RESET) $(WHITE)Cleaning object files from $(CYAN)$(NAME)$(RESET)...\n"
 	@rm -rf $(OBJ_DIR)
-	@rm -rf $(OBJ_DIR_DEBUG)
-	@rm -rf $(OBJ_DIR_BONUS)
 	@$(MAKE) --silent -C $(LIBFT_DIR) $@
 
 fclean:
@@ -150,8 +148,6 @@ fclean:
 	@rm -f $(NAME_BONUS)
 	@printf "$(ORANGE)$(BOLD)[CLEAN]$(RESET) $(WHITE)Cleaning object files from $(CYAN)$(NAME)$(RESET)...\n"
 	@rm -rf $(OBJ_DIR)
-	@rm -rf $(OBJ_DIR_DEBUG)
-	@rm -rf $(OBJ_DIR_BONUS)
 	@printf "$(GREEN)$(BOLD)[DONE]$(RESET) $(WHITE)Clean complete!$(RESET)\n"
 
 re: fclean
